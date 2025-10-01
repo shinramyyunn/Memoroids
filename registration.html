@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(to right, #fce4ec, #f8bbd0);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .container {
+        background: #ffffff;
+        padding: 2rem;
+        border-radius: 16px;
+        box-shadow: 0 8px 16px rgba(255, 105, 180, 0.2);
+        width: 320px;
+      }
+      h2 {
+        text-align: center;
+        color: #d63384;
+      }
+      input {
+        width: 90%;
+        padding: 0.75rem;
+        margin-top: 0.8rem;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+      }
+      button {
+        margin-top: 1rem;
+        width: 100%;
+        padding: 0.75rem;
+        background-color: #ff69b4;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #e255a1;
+      }
+      .error {
+        color: red;
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+      }
+      .register-link {
+        text-align: center;
+        margin-top: 1rem;
+        font-size: 0.9rem;
+      }
+      .register-link a {
+        color: #d63384;
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .register-link a:hover {
+        text-decoration: underline;
+      }
+
+      /* Toast Popup */
+      .toast {
+        visibility: hidden;
+        min-width: 250px;
+        background-color: #4caf50;
+        color: white;
+        text-align: center;
+        border-radius: 8px;
+        padding: 16px;
+        position: fixed;
+        left: 50%;
+        bottom: 30px;
+        transform: translateX(-50%);
+        font-size: 1rem;
+        z-index: 1000;
+      }
+      .toast.show {
+        visibility: visible;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+      }
+      @keyframes fadein {
+        from {
+          bottom: 0;
+          opacity: 0;
+        }
+        to {
+          bottom: 30px;
+          opacity: 1;
+        }
+      }
+      @keyframes fadeout {
+        from {
+          bottom: 30px;
+          opacity: 1;
+        }
+        to {
+          bottom: 0;
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Register</h2>
+      <form id="registerForm">
+        <input type="text" id="username" placeholder="Username" required />
+        <input type="email" id="email" placeholder="Email" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <div class="error" id="errorMsg"></div>
+        <button type="submit">Register</button>
+      </form>
+      <div class="register-link">
+        already registered? <a href="login.html">Login here</a>
+      </div>
+    </div>
+
+    <!-- Toast message -->
+    <div id="toast" class="toast">✅ Successfully Registered!</div>
+
+    <script>
+      document
+        .getElementById('registerForm')
+        .addEventListener('submit', async (e) => {
+          e.preventDefault()
+
+          const username = document.getElementById('username').value.trim()
+          const email = document.getElementById('email').value.trim()
+          const password = document.getElementById('password').value
+
+          const res = await fetch('http://localhost:5000/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, email, password }),
+          })
+
+          const data = await res.json()
+          if (res.ok) {
+            // Show toast
+            const toast = document.getElementById('toast')
+            toast.className = 'toast show'
+
+            // Redirect after 3 seconds
+            setTimeout(() => {
+              window.location.href = 'index.html'
+            }, 3000)
+          } else {
+            document.getElementById('errorMsg').textContent =
+              data.error || 'Error occurred'
+          }
+        })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tangerine:wght@700&family=Poppins:wght@300;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      body {
+        font-family: 'Tangerine', sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(to right, #fce4ec, #f8bbd0);
+        min-height: 100vh;
+      }
+
+      /* Curved Navbar */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: linear-gradient(to right, #fce4ec, #f8bbd0);
+        margin: 20px;
+        padding: 1rem 2rem;
+        color: rgb(231, 91, 166);
+        border-radius: 50px; /* Curve effect */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      header h1 {
+        font-family: 'Tangerine', cursive;
+        font-size: 2rem;
+        margin: 0;
+      }
+
+      .menu-btn {
+        background: linear-gradient(to right, #fce4ec, #f8bbd0);
+        border: none;
+        border-radius: 50%;
+        width: 42px;
+        height: 42px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: background 0.2s ease;
+        position: relative;
+      }
+
+      .menu-btn:hover {
+        background: #ffe4ec;
+      }
+
+      /* Dropdown Menu */
+      .dropdown {
+        position: absolute;
+        top: 80px;
+        right: 40px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        display: none;
+        flex-direction: column;
+        min-width: 150px;
+        z-index: 1000;
+      }
+
+      .dropdown a {
+        font-family: 'Poppins', sans-serif;
+        padding: 10px 15px;
+        text-decoration: none;
+        color: #333;
+        transition: background 0.2s;
+        font-size: 0.95rem;
+      }
+
+      .dropdown a:hover {
+        background: #ffe4ec;
+        color: #d63384;
+      }
+
+      h2 {
+        font-size: 2.5rem;
+        text-align: center;
+        margin: 2.5rem 0;
+        color: #d63384;
+      }
+
+      #gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 20px;
+        padding: 20px;
+      }
+
+      .photo-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        text-align: center;
+        transition: transform 0.2s ease;
+      }
+
+      .photo-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .photo-card img {
+        width: 100%;
+        border-radius: 8px;
+        margin-bottom: 10px;
+      }
+
+      .delete-btn {
+        background: #ff69b4;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.9rem;
+      }
+
+      .delete-btn:hover {
+        background: #d63384;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>My Dashboard</h1>
+      <div>
+        <button class="menu-btn" onclick="toggleMenu()">
+          <i data-lucide="menu"></i>
+        </button>
+        <div id="dropdownMenu" class="dropdown">
+          <a href="index.html"><i data-lucide="home"></i> Home </a>
+          <a href="#" onclick="logout()"
+            ><i data-lucide="log-out"></i> Logout</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <h2>My Saved Photo Strips</h2>
+    <div id="gallery"></div>
+
+    <script>
+      lucide.createIcons()
+
+      const username = localStorage.getItem('username')
+      if (!username) {
+        alert('❌ Please log in first!')
+        window.location.href = 'login.html'
+      }
+
+      // Toggle dropdown
+      function toggleMenu() {
+        const menu = document.getElementById('dropdownMenu')
+        menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex'
+      }
+
+      // Load Photos
+      async function loadPhotos() {
+        try {
+          const res = await fetch(`http://localhost:5000/my_photos/${username}`)
+          const data = await res.json()
+          const gallery = document.getElementById('gallery')
+
+          if (!data.photos || data.photos.length === 0) {
+            gallery.innerHTML = '<p>No photos saved yet!</p>'
+            return
+          }
+
+          gallery.innerHTML = ''
+          data.photos.forEach((photo) => {
+            const card = document.createElement('div')
+            card.classList.add('photo-card')
+            card.innerHTML = `
+              <img src="${photo.image}" alt="Saved Strip"/>
+              <button class="delete-btn" onclick="deletePhoto('${photo._id}')">Delete</button>
+            `
+            gallery.appendChild(card)
+          })
+        } catch (err) {
+          console.error(err)
+        }
+      }
+
+      async function deletePhoto(id) {
+        await fetch('http://localhost:5000/delete_photo/' + id, {
+          method: 'DELETE',
+        })
+        loadPhotos()
+      }
+
+      function logout() {
+        localStorage.removeItem('username')
+        window.location.href = 'login.html'
+      }
+
+      // Load when page opens
+      loadPhotos()
+    </script>
+  </body>
+</html>

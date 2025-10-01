@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Edit Photo Strip</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Poppins&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background-color: #ffffff;
+        padding-top: 80px;
+      }
+
+      .home-button {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #fff8ca;
+        border: none;
+        border-radius: 50%;
+        padding: 12px;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(236, 140, 191, 0.3);
+        transition: background 0.2s ease;
+        z-index: 1000;
+      }
+      .home-button:hover {
+        background-color: #ffe4e1;
+      }
+      .home-button svg {
+        width: 24px;
+        height: 24px;
+        color: #ff69b4;
+      }
+
+      .edit-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 2rem;
+        padding: 2rem;
+      }
+
+      .strip-preview {
+        padding: 1rem;
+        width: 220px;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+      }
+
+      .strip-preview img {
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        object-fit: cover;
+        transition: clip-path 0.4s ease, border-radius 0.4s ease;
+      }
+
+      .bg-options {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .bg-options h3 {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+        font-family: 'Pacifico', cursive;
+      }
+
+      .color-button-group,
+      .print-button-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+      }
+
+      .color-btn,
+      .print-btn {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: 2px solid #ccc;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+      }
+
+      .color-btn:hover,
+      .print-btn:hover {
+        transform: scale(1.1);
+      }
+
+      .bg-white {
+        background-color: #ffffff;
+      }
+      .bg-black {
+        background-color: #222222;
+      }
+      .bg-pink {
+        background-color: #ffe4e1;
+      }
+      .bg-blue {
+        background-color: #d0e7ff;
+      }
+      .bg-yellow {
+        background-color: #fff7c2;
+      }
+      .bg-green {
+        background-color: #c7e984;
+      }
+      .bg-maroon {
+        background-color: #5a0c0c;
+      }
+
+      .shape-button-group {
+        display: flex;
+        gap: 10px;
+        margin-top: 1rem;
+      }
+
+      .shape-btn {
+        padding: 8px 14px;
+        background-color: #fddde6;
+        border: none;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        cursor: pointer;
+        transition: background 0.2s ease;
+        font-family: 'Pacifico', cursive;
+      }
+
+      .shape-btn:hover {
+        background-color: #ffcde1;
+      }
+
+      #downloadBtn,
+      #saveBtn {
+        margin-top: 1rem;
+        padding: 10px 20px;
+        background-color: #fff7c2;
+        color: rgb(12, 0, 0);
+        font-size: 1rem;
+        border: 3px solid #ff69b4;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      #downloadBtn:hover,
+      #saveBtn:hover {
+        background-color: #ff69b4;
+        color: white;
+      }
+    </style>
+  </head>
+
+  <body>
+    <button class="home-button" onclick="goHome()">
+      <i data-lucide="home"></i>
+    </button>
+
+    <main class="edit-container">
+      <div class="strip-preview" id="stripPreview"></div>
+
+      <div class="bg-options">
+        <h3>Choose Strip Frame Background</h3>
+        <div class="color-button-group">
+          <button
+            class="color-btn bg-white"
+            onclick="changeStripBG('#ffffff')"
+          ></button>
+          <button
+            class="color-btn bg-black"
+            onclick="changeStripBG('#222222')"
+          ></button>
+          <button
+            class="color-btn bg-pink"
+            onclick="changeStripBG('#ffe4e1')"
+          ></button>
+          <button
+            class="color-btn bg-blue"
+            onclick="changeStripBG('#d0e7ff')"
+          ></button>
+          <button
+            class="color-btn bg-yellow"
+            onclick="changeStripBG('#fff7c2')"
+          ></button>
+          <button
+            class="color-btn bg-green"
+            onclick="changeStripBG('#c7e984')"
+          ></button>
+          <button
+            class="color-btn bg-maroon"
+            onclick="changeStripBG('#5a0c0c')"
+          ></button>
+        </div>
+
+        <div class="print-button-group">
+          <img
+            src="images/heartbg.jpeg"
+            class="print-btn"
+            onclick="changeStripBG('url(images/heartbg.jpeg)')"
+            title="Heart"
+          />
+          <img
+            src="images/flowerbg.jpeg"
+            class="print-btn"
+            onclick="changeStripBG('url(images/flowerbg.jpeg)')"
+            title="Flower"
+          />
+          <img
+            src="images/oceanbg.jpeg"
+            class="print-btn"
+            onclick="changeStripBG('url(images/oceanbg.jpeg)')"
+            title="Ocean"
+          />
+        </div>
+
+        <h3>Choose Photo Shape</h3>
+        <div class="shape-button-group">
+          <button class="shape-btn" onclick="changeShape('square')">
+            Square
+          </button>
+          <button class="shape-btn" onclick="changeShape('circle')">
+            Circle
+          </button>
+          <button class="shape-btn" onclick="changeShape('nonagon')">
+            Nonagon
+          </button>
+        </div>
+
+        <div>
+          <button id="downloadBtn">Download Strip</button>
+          <button id="saveBtn">Save to My Account</button>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      lucide.createIcons()
+
+      function goHome() {
+        window.location.href = 'index.html'
+      }
+
+      function changeStripBG(colorOrUrl) {
+        const strip = document.getElementById('stripPreview')
+        if (colorOrUrl.includes('url(')) {
+          strip.style.background = `${colorOrUrl} center/cover no-repeat`
+        } else {
+          strip.style.background = colorOrUrl
+        }
+      }
+
+      function changeShape(shape) {
+        const images = document.querySelectorAll('#stripPreview img')
+        images.forEach((img) => {
+          img.style.transition =
+            'clip-path 0.4s ease, border-radius 0.4s ease, transform 0.4s ease'
+          if (shape === 'circle') {
+            img.style.clipPath = 'none'
+            img.style.borderRadius = '50%'
+          } else if (shape === 'nonagon') {
+            img.style.borderRadius = '0'
+            img.style.clipPath =
+              'polygon(50% 0%, 83% 12%, 100% 43%, 94% 78%, 68% 100%, 32% 100%, 6% 78%, 0% 43%, 17% 12%)'
+          } else {
+            img.style.clipPath = 'none'
+            img.style.borderRadius = '0'
+          }
+        })
+      }
+
+      window.onload = () => {
+        const stripContainer = document.getElementById('stripPreview')
+        const savedImages =
+          JSON.parse(localStorage.getItem('capturedStrip')) || []
+
+        if (savedImages.length === 0) {
+          stripContainer.innerHTML =
+            "<p style='text-align:center;'>No photos found. Please take photos first.</p>"
+          return
+        }
+
+        savedImages.forEach((src) => {
+          const img = document.createElement('img')
+          img.src = src
+          stripContainer.appendChild(img)
+        })
+      }
+
+      document.getElementById('downloadBtn').addEventListener('click', () => {
+        const stripContainer = document.getElementById('stripPreview')
+        html2canvas(stripContainer, { scale: 2 }).then((canvas) => {
+          const link = document.createElement('a')
+          link.download = 'photo_strip.png'
+          link.href = canvas.toDataURL()
+          link.click()
+        })
+      })
+
+      document.getElementById('saveBtn').addEventListener('click', () => {
+        const stripContainer = document.getElementById('stripPreview')
+        html2canvas(stripContainer, { scale: 2 }).then((canvas) => {
+          const imageData = canvas.toDataURL('image/png')
+          const username = localStorage.getItem('username')
+
+          if (!username) {
+            alert('❌ Please log in first!')
+            window.location.href = 'login.html'
+            return
+          }
+
+          fetch('http://localhost:5000/save_photo', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, image: imageData }),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.success) alert('✅ Photo saved successfully!')
+              else alert('❌ ' + data.error)
+            })
+            .catch((err) => console.error(err))
+        })
+      })
+    </script>
+  </body>
+</html>

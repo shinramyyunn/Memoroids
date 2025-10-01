@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Select Layout</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: 'Tangerine', cursive;
+        background: linear-gradient(to right, #fce4ec, #f8bbd0);
+        padding: 2rem;
+        text-align: center;
+        min-height: 100vh;
+        margin: 0;
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+        height: 100vh;
+      }
+
+      h1 {
+        color: #000000;
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .layout-buttons {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 30px;
+        margin-top: 2rem;
+      }
+
+      .layout-card1 {
+        background-color: #fff;
+        padding: 1rem;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(255, 105, 180, 0.15);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        width: 250px;
+        cursor: pointer;
+      }
+      .layout-card2 {
+        background-color: #fff;
+        padding: 1rem;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(255, 105, 180, 0.15);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        width: 250px;
+        cursor: pointer;
+      }
+      .layout-card3 {
+        background-color: #fff;
+        padding: 1rem;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(255, 105, 180, 0.15);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        width: 250px;
+        cursor: pointer;
+      }
+      .layout-card1:hover,
+      .layout-card2:hover,
+      .layout-card3:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 12px 25px rgba(211, 52, 132, 0.3);
+      }
+
+      .layout-card1 img,
+      .layout-card2 img,
+      .layout-card3 img {
+        width: 80%;
+        height: auto;
+      }
+
+      .layout-card1 p,
+      .layout-card2 p,
+      .layout-card3 p {
+        margin-top: 0.8rem;
+        color: #000000;
+        font-weight: 600;
+      }
+
+      .note {
+        font-size: 1.5rem;
+        margin-top: 2rem;
+        color: #555;
+      }
+      /*  Home Button */
+      .home-button {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #fff8ca;
+        border: none;
+        border-radius: 50%;
+        padding: 12px;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(236, 140, 191, 0.3);
+        transition: background 0.2s ease;
+        z-index: 1000;
+      }
+
+      .home-button:hover {
+        background-color: #ffe4e1;
+      }
+
+      .home-button svg {
+        width: 24px;
+        height: 24px;
+        color: #ff69b4;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Choose Your Layout</h1>
+    <div class="layout-buttons">
+      <div class="layout-card1" onclick="selectLayout(2)">
+        <img src="images/two.png" alt="2 Pose Layout" />
+        <p>Layout A<br />2 Poses</p>
+      </div>
+
+      <div class="layout-card2" onclick="selectLayout(3)">
+        <img src="images/three.png" alt="3 Pose Layout" />
+        <p>Layout B<br />3 Poses</p>
+      </div>
+      <div class="layout-card3" onclick="selectLayout(4)">
+        <img src="images/four.png" alt="4 Pose Layout" />
+        <p>Layout C<br />4 Poses</p>
+      </div>
+    </div>
+
+    <script>
+      function goHome() {
+        window.location.href = 'index.html'
+      }
+      function selectLayout(num) {
+        localStorage.setItem('layoutCount', num)
+        window.location.href = 'capture.html'
+      }
+    </script>
+  </body>
+</html>

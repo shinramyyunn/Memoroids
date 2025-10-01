@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Memoroids - Home</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tangerine:wght@700&family=Poppins:wght@300;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #ffaad4, #ff94bf, #ff8bde);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      .container {
+        text-align: center;
+        color: #fff;
+        animation: fadeIn 1s ease;
+      }
+
+      .logo {
+        font-family: 'Tangerine', cursive;
+        font-size: 5rem;
+        font-weight: 700;
+        background: linear-gradient(to right, #000000, #3a3a3a);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 0.2em;
+      }
+
+      .tagline {
+        font-size: 1.1rem;
+        margin-bottom: 30px;
+        color: #fff9;
+      }
+
+      .buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .start-btn,
+      .upload-btn {
+        background-color: #f6b4ce;
+        color: rgb(0, 0, 0);
+        padding: 14px 36px;
+        border: none;
+        border-radius: 28px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .start-btn:hover,
+      .upload-btn:hover {
+        background-color: #fff8ca;
+        transform: scale(1.05);
+      }
+
+      /* ✅ Menu button with dropdown */
+      .menu-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: none;
+        background-color: #fff8ca;
+        color: #ff69b4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+        transition: background 0.3s ease, transform 0.2s ease;
+      }
+
+      .menu-btn:hover {
+        background-color: #ff69b4;
+        color: white;
+        transform: scale(1.1);
+      }
+
+      .menu-btn svg {
+        width: 22px;
+        height: 22px;
+      }
+
+      /* Dropdown */
+      .dropdown {
+        position: absolute;
+        top: 80px;
+        right: 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        display: none;
+        flex-direction: column;
+        min-width: 160px;
+        z-index: 1000;
+      }
+
+      .dropdown a {
+        padding: 10px 15px;
+        text-decoration: none;
+        color: #333;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: background 0.2s;
+        font-size: 0.95rem;
+      }
+
+      .dropdown a:hover {
+        background: #ffe4ec;
+        color: #d63384;
+      }
+
+      .footer {
+        position: absolute;
+        bottom: 15px;
+        font-size: 0.85rem;
+        color: #fff8;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 480px) {
+        .logo {
+          font-size: 3.5rem;
+        }
+
+        .start-btn,
+        .upload-btn {
+          padding: 12px 24px;
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ✅ Dropdown Menu Button -->
+    <div>
+      <button class="menu-btn" onclick="toggleMenu()">
+        <i data-lucide="menu"></i>
+      </button>
+      <div id="dropdownMenu" class="dropdown">
+        <a href="dashboard.html"><i data-lucide="grid"></i> Dashboard</a>
+        <a href="#" onclick="logout()"><i data-lucide="log-out"></i> Logout</a>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="logo">Memoroids</div>
+      <div class="tagline">Capture Your Moments</div>
+
+      <div class="buttons">
+        <a href="layout.html"><button class="start-btn">CAPTURE NOW</button></a>
+        <button
+          onclick="document.getElementById('fileInput').click()"
+          class="upload-btn"
+        >
+          UPLOAD PHOTOS
+        </button>
+      </div>
+
+      <input
+        type="file"
+        id="fileInput"
+        accept="image/*"
+        multiple
+        style="display: none"
+      />
+    </div>
+
+    <div class="footer"></div>
+
+    <script>
+      lucide.createIcons()
+
+      const fileInput = document.getElementById('fileInput')
+
+      fileInput.addEventListener('change', function () {
+        const files = Array.from(fileInput.files)
+        const count = files.length
+
+        if (![2, 3, 4].includes(count)) {
+          alert('Please upload exactly 2, 3, or 4 photos.')
+          fileInput.value = ''
+          return
+        }
+
+        const imagesData = []
+        let loadedCount = 0
+
+        files.forEach((file) => {
+          const reader = new FileReader()
+          reader.onload = function (e) {
+            imagesData.push(e.target.result)
+            loadedCount++
+
+            if (loadedCount === count) {
+              localStorage.setItem('capturedStrip', JSON.stringify(imagesData))
+              localStorage.setItem('layoutCount', count)
+              window.location.href = 'edit.html'
+            }
+          }
+          reader.readAsDataURL(file)
+        })
+      })
+
+      // ✅ Dropdown toggle
+      function toggleMenu() {
+        const menu = document.getElementById('dropdownMenu')
+        menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex'
+      }
+
+      // ✅ Logout
+      function logout() {
+        localStorage.removeItem('username')
+        window.location.href = 'login.html'
+      }
+
+      // ✅ Close dropdown if clicked outside
+      window.addEventListener('click', function (e) {
+        const menu = document.getElementById('dropdownMenu')
+        const button = document.querySelector('.menu-btn')
+        if (!menu.contains(e.target) && !button.contains(e.target)) {
+          menu.style.display = 'none'
+        }
+      })
+    </script>
+  </body>
+</html>
