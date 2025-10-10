@@ -20,67 +20,55 @@
         text-align: center;
         min-height: 100vh;
         margin: 0;
-        position: relative;
-        width: 100%;
-        height: auto;
-        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
       }
 
       h1 {
-        color: #000000;
+        color: #000;
         font-size: 2.5rem;
         margin-bottom: 1.5rem;
       }
 
       .layout-buttons {
         display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 30px;
-        margin-top: 2rem;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        width: 100%;
+        max-width: 400px;
       }
 
-      .layout-card1,
-      .layout-card2,
-      .layout-card3 {
+      .layout-btn {
+        width: 80%;
         background-color: #fff;
-        padding: 1rem;
+        border: none;
         border-radius: 20px;
+        padding: 1.2rem;
+        font-size: 1.5rem;
+        color: #ff69b4;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
         box-shadow: 0 8px 20px rgba(255, 105, 180, 0.15);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
-        width: 250px;
         cursor: pointer;
       }
 
-      .layout-card1:hover,
-      .layout-card2:hover,
-      .layout-card3:hover {
-        transform: translateY(-10px);
+      .layout-btn:hover {
+        transform: translateY(-6px);
         box-shadow: 0 12px 25px rgba(211, 52, 132, 0.3);
-      }
-
-      .layout-card1 img,
-      .layout-card2 img,
-      .layout-card3 img {
-        width: 80%;
-        height: auto;
-      }
-
-      .layout-card1 p,
-      .layout-card2 p,
-      .layout-card3 p {
-        margin-top: 0.8rem;
-        color: #000000;
-        font-weight: 600;
+        background-color: #fff0f5;
       }
 
       .note {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         margin-top: 2rem;
         color: #555;
       }
 
-      /* Home Button */
+      /* 🏠 Home Button */
       .home-button {
         position: fixed;
         top: 20px;
@@ -105,39 +93,17 @@
         color: #ff69b4;
       }
 
-      /* 🌸 Responsive Design for Mobile */
-      @media (max-width: 768px) {
-        body {
-          padding: 1.5rem;
-        }
-
+      /* 🌸 Mobile Responsiveness */
+      @media (max-width: 600px) {
         h1 {
           font-size: 2rem;
           margin-bottom: 1rem;
         }
 
-        .layout-buttons {
-          flex-direction: column;
-          align-items: center;
-          gap: 20px;
-        }
-
-        .layout-card1,
-        .layout-card2,
-        .layout-card3 {
-          width: 90%;
-          max-width: 320px;
-        }
-
-        .layout-card1 img,
-        .layout-card2 img,
-        .layout-card3 img {
-          width: 100%;
-        }
-
-        .note {
+        .layout-btn {
           font-size: 1.2rem;
-          padding: 0 1rem;
+          width: 90%;
+          padding: 1rem;
         }
 
         .home-button {
@@ -153,24 +119,22 @@
       }
     </style>
   </head>
+
   <body>
+    <button class="home-button" onclick="goHome()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-home">
+        <path d="M3 9l9-7 9 7"></path>
+        <path d="M9 22V12h6v10"></path>
+      </svg>
+    </button>
+
     <h1>Choose Your Layout</h1>
 
     <div class="layout-buttons">
-      <div class="layout-card1" onclick="selectLayout(2)">
-        <img src="images/two.png" alt="2 Pose Layout" />
-        <p>Layout A<br />2 Poses</p>
-      </div>
-
-      <div class="layout-card2" onclick="selectLayout(3)">
-        <img src="images/three.png" alt="3 Pose Layout" />
-        <p>Layout B<br />3 Poses</p>
-      </div>
-
-      <div class="layout-card3" onclick="selectLayout(4)">
-        <img src="images/four.png" alt="4 Pose Layout" />
-        <p>Layout C<br />4 Poses</p>
-      </div>
+      <button class="layout-btn" onclick="selectLayout(2)">2 Photos</button>
+      <button class="layout-btn" onclick="selectLayout(3)">3 Photos</button>
+      <button class="layout-btn" onclick="selectLayout(4)">4 Photos</button>
     </div>
 
     <script>
