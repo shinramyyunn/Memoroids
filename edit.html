@@ -77,6 +77,7 @@
         font-size: 1.2rem;
         margin-bottom: 0.5rem;
         font-family: 'Pacifico', cursive;
+        text-align: center;
       }
 
       .color-button-group,
@@ -128,6 +129,8 @@
         display: flex;
         gap: 10px;
         margin-top: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
       }
 
       .shape-btn {
@@ -135,10 +138,9 @@
         background-color: #fddde6;
         border: none;
         border-radius: 8px;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Pacifico', cursive;
         cursor: pointer;
         transition: background 0.2s ease;
-        font-family: 'Pacifico', cursive;
       }
 
       .shape-btn:hover {
@@ -162,6 +164,63 @@
         background-color: #ff69b4;
         color: white;
       }
+
+      /* 🌸 Mobile-friendly adjustments */
+      @media (max-width: 768px) {
+        body {
+          padding-top: 60px;
+        }
+
+        .edit-container {
+          flex-direction: column;
+          align-items: center;
+          padding: 1rem;
+          gap: 1.5rem;
+        }
+
+        .strip-preview {
+          width: 90%;
+          max-width: 320px;
+        }
+
+        .bg-options {
+          width: 100%;
+          align-items: center;
+        }
+
+        .bg-options h3 {
+          font-size: 1rem;
+          text-align: center;
+        }
+
+        .color-btn,
+        .print-btn {
+          width: 40px;
+          height: 40px;
+        }
+
+        .shape-btn {
+          padding: 6px 10px;
+          font-size: 0.9rem;
+        }
+
+        #downloadBtn,
+        #saveBtn {
+          padding: 8px 16px;
+          font-size: 0.9rem;
+        }
+
+        .home-button {
+          top: 10px;
+          right: 10px;
+          padding: 10px;
+        }
+
+        .home-button svg {
+          width: 20px;
+          height: 20px;
+        }
+      }
     </style>
   </head>
 
@@ -176,68 +235,26 @@
       <div class="bg-options">
         <h3>Choose Strip Frame Background</h3>
         <div class="color-button-group">
-          <button
-            class="color-btn bg-white"
-            onclick="changeStripBG('#ffffff')"
-          ></button>
-          <button
-            class="color-btn bg-black"
-            onclick="changeStripBG('#222222')"
-          ></button>
-          <button
-            class="color-btn bg-pink"
-            onclick="changeStripBG('#ffe4e1')"
-          ></button>
-          <button
-            class="color-btn bg-blue"
-            onclick="changeStripBG('#d0e7ff')"
-          ></button>
-          <button
-            class="color-btn bg-yellow"
-            onclick="changeStripBG('#fff7c2')"
-          ></button>
-          <button
-            class="color-btn bg-green"
-            onclick="changeStripBG('#c7e984')"
-          ></button>
-          <button
-            class="color-btn bg-maroon"
-            onclick="changeStripBG('#5a0c0c')"
-          ></button>
+          <button class="color-btn bg-white" onclick="changeStripBG('#ffffff')"></button>
+          <button class="color-btn bg-black" onclick="changeStripBG('#222222')"></button>
+          <button class="color-btn bg-pink" onclick="changeStripBG('#ffe4e1')"></button>
+          <button class="color-btn bg-blue" onclick="changeStripBG('#d0e7ff')"></button>
+          <button class="color-btn bg-yellow" onclick="changeStripBG('#fff7c2')"></button>
+          <button class="color-btn bg-green" onclick="changeStripBG('#c7e984')"></button>
+          <button class="color-btn bg-maroon" onclick="changeStripBG('#5a0c0c')"></button>
         </div>
 
         <div class="print-button-group">
-          <img
-            src="images/heartbg.jpeg"
-            class="print-btn"
-            onclick="changeStripBG('url(images/heartbg.jpeg)')"
-            title="Heart"
-          />
-          <img
-            src="images/flowerbg.jpeg"
-            class="print-btn"
-            onclick="changeStripBG('url(images/flowerbg.jpeg)')"
-            title="Flower"
-          />
-          <img
-            src="images/oceanbg.jpeg"
-            class="print-btn"
-            onclick="changeStripBG('url(images/oceanbg.jpeg)')"
-            title="Ocean"
-          />
+          <img src="images/heartbg.jpeg" class="print-btn" onclick="changeStripBG('url(images/heartbg.jpeg)')" title="Heart" />
+          <img src="images/flowerbg.jpeg" class="print-btn" onclick="changeStripBG('url(images/flowerbg.jpeg)')" title="Flower" />
+          <img src="images/oceanbg.jpeg" class="print-btn" onclick="changeStripBG('url(images/oceanbg.jpeg)')" title="Ocean" />
         </div>
 
         <h3>Choose Photo Shape</h3>
         <div class="shape-button-group">
-          <button class="shape-btn" onclick="changeShape('square')">
-            Square
-          </button>
-          <button class="shape-btn" onclick="changeShape('circle')">
-            Circle
-          </button>
-          <button class="shape-btn" onclick="changeShape('nonagon')">
-            Nonagon
-          </button>
+          <button class="shape-btn" onclick="changeShape('square')">Square</button>
+          <button class="shape-btn" onclick="changeShape('circle')">Circle</button>
+          <button class="shape-btn" onclick="changeShape('nonagon')">Nonagon</button>
         </div>
 
         <div>
@@ -248,78 +265,74 @@
     </main>
 
     <script>
-      lucide.createIcons()
+      lucide.createIcons();
 
       function goHome() {
-        window.location.href = 'index.html'
+        window.location.href = 'index.html';
       }
 
       function changeStripBG(colorOrUrl) {
-        const strip = document.getElementById('stripPreview')
+        const strip = document.getElementById('stripPreview');
         if (colorOrUrl.includes('url(')) {
-          strip.style.background = `${colorOrUrl} center/cover no-repeat`
+          strip.style.background = `${colorOrUrl} center/cover no-repeat`;
         } else {
-          strip.style.background = colorOrUrl
+          strip.style.background = colorOrUrl;
         }
       }
 
       function changeShape(shape) {
-        const images = document.querySelectorAll('#stripPreview img')
+        const images = document.querySelectorAll('#stripPreview img');
         images.forEach((img) => {
-          img.style.transition =
-            'clip-path 0.4s ease, border-radius 0.4s ease, transform 0.4s ease'
+          img.style.transition = 'clip-path 0.4s ease, border-radius 0.4s ease, transform 0.4s ease';
           if (shape === 'circle') {
-            img.style.clipPath = 'none'
-            img.style.borderRadius = '50%'
+            img.style.clipPath = 'none';
+            img.style.borderRadius = '50%';
           } else if (shape === 'nonagon') {
-            img.style.borderRadius = '0'
-            img.style.clipPath =
-              'polygon(50% 0%, 83% 12%, 100% 43%, 94% 78%, 68% 100%, 32% 100%, 6% 78%, 0% 43%, 17% 12%)'
+            img.style.borderRadius = '0';
+            img.style.clipPath = 'polygon(50% 0%, 83% 12%, 100% 43%, 94% 78%, 68% 100%, 32% 100%, 6% 78%, 0% 43%, 17% 12%)';
           } else {
-            img.style.clipPath = 'none'
-            img.style.borderRadius = '0'
+            img.style.clipPath = 'none';
+            img.style.borderRadius = '0';
           }
-        })
+        });
       }
 
       window.onload = () => {
-        const stripContainer = document.getElementById('stripPreview')
-        const savedImages =
-          JSON.parse(localStorage.getItem('capturedStrip')) || []
+        const stripContainer = document.getElementById('stripPreview');
+        const savedImages = JSON.parse(localStorage.getItem('capturedStrip')) || [];
 
         if (savedImages.length === 0) {
-          stripContainer.innerHTML =
-            "<p style='text-align:center;'>No photos found. Please take photos first.</p>"
-          return
+          stripContainer.innerHTML = "<p style='text-align:center;'>No photos found. Please take photos first.</p>";
+          return;
         }
 
         savedImages.forEach((src) => {
-          const img = document.createElement('img')
-          img.src = src
-          stripContainer.appendChild(img)
-        })
-      }
+          const img = document.createElement('img');
+          img.src = src;
+          stripContainer.appendChild(img);
+        });
+      };
 
       document.getElementById('downloadBtn').addEventListener('click', () => {
-        const stripContainer = document.getElementById('stripPreview')
+        const stripContainer = document.getElementById('stripPreview');
         html2canvas(stripContainer, { scale: 2 }).then((canvas) => {
-          const link = document.createElement('a')
-          link.download = 'photo_strip.png'
-          link.href = canvas.toDataURL()
-          link.click()
-        })
-      })
+          const link = document.createElement('a');
+          link.download = 'photo_strip.png';
+          link.href = canvas.toDataURL();
+          link.click();
+        });
+      });
 
       document.getElementById('saveBtn').addEventListener('click', () => {
-        const stripContainer = document.getElementById('stripPreview')
+        const stripContainer = document.getElementById('stripPreview');
         html2canvas(stripContainer, { scale: 2 }).then((canvas) => {
-          const imageData = canvas.toDataURL('image/png')
-          const username = localStorage.getItem('username')
+          const imageData = canvas.toDataURL('image/png');
+          const username = localStorage.getItem('username');
 
           if (!username) {
-            alert('❌ Please log in first!')
-            window.location.href = 'login.html'
-            return
+            alert('❌ Please log in first!');
+            window.location.href = 'login.html';
+            return;
           }
 
           fetch('http://localhost:5000/save_photo', {
@@ -329,12 +342,12 @@
           })
             .then((res) => res.json())
             .then((data) => {
-              if (data.success) alert('✅ Photo saved successfully!')
-              else alert('❌ ' + data.error)
+              if (data.success) alert('✅ Photo saved successfully!');
+              else alert('❌ ' + data.error);
             })
-            .catch((err) => console.error(err))
-        })
-      })
+            .catch((err) => console.error(err));
+        });
+      });
     </script>
   </body>
 </html>
