@@ -8,10 +8,6 @@
       href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
       rel="stylesheet"
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&display=swap"
       rel="stylesheet"
@@ -24,10 +20,10 @@
         text-align: center;
         min-height: 100vh;
         margin: 0;
-        overflow: hidden;
-        position: fixed;
+        position: relative;
         width: 100%;
-        height: 100vh;
+        height: auto;
+        overflow-x: hidden;
       }
 
       h1 {
@@ -44,24 +40,8 @@
         margin-top: 2rem;
       }
 
-      .layout-card1 {
-        background-color: #fff;
-        padding: 1rem;
-        border-radius: 20px;
-        box-shadow: 0 8px 20px rgba(255, 105, 180, 0.15);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        width: 250px;
-        cursor: pointer;
-      }
-      .layout-card2 {
-        background-color: #fff;
-        padding: 1rem;
-        border-radius: 20px;
-        box-shadow: 0 8px 20px rgba(255, 105, 180, 0.15);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        width: 250px;
-        cursor: pointer;
-      }
+      .layout-card1,
+      .layout-card2,
       .layout-card3 {
         background-color: #fff;
         padding: 1rem;
@@ -71,6 +51,7 @@
         width: 250px;
         cursor: pointer;
       }
+
       .layout-card1:hover,
       .layout-card2:hover,
       .layout-card3:hover {
@@ -98,7 +79,8 @@
         margin-top: 2rem;
         color: #555;
       }
-      /*  Home Button */
+
+      /* Home Button */
       .home-button {
         position: fixed;
         top: 20px;
@@ -122,10 +104,58 @@
         height: 24px;
         color: #ff69b4;
       }
+
+      /* 🌸 Responsive Design for Mobile */
+      @media (max-width: 768px) {
+        body {
+          padding: 1.5rem;
+        }
+
+        h1 {
+          font-size: 2rem;
+          margin-bottom: 1rem;
+        }
+
+        .layout-buttons {
+          flex-direction: column;
+          align-items: center;
+          gap: 20px;
+        }
+
+        .layout-card1,
+        .layout-card2,
+        .layout-card3 {
+          width: 90%;
+          max-width: 320px;
+        }
+
+        .layout-card1 img,
+        .layout-card2 img,
+        .layout-card3 img {
+          width: 100%;
+        }
+
+        .note {
+          font-size: 1.2rem;
+          padding: 0 1rem;
+        }
+
+        .home-button {
+          top: 10px;
+          right: 10px;
+          padding: 10px;
+        }
+
+        .home-button svg {
+          width: 20px;
+          height: 20px;
+        }
+      }
     </style>
   </head>
   <body>
     <h1>Choose Your Layout</h1>
+
     <div class="layout-buttons">
       <div class="layout-card1" onclick="selectLayout(2)">
         <img src="images/two.png" alt="2 Pose Layout" />
@@ -136,6 +166,7 @@
         <img src="images/three.png" alt="3 Pose Layout" />
         <p>Layout B<br />3 Poses</p>
       </div>
+
       <div class="layout-card3" onclick="selectLayout(4)">
         <img src="images/four.png" alt="4 Pose Layout" />
         <p>Layout C<br />4 Poses</p>
@@ -144,11 +175,12 @@
 
     <script>
       function goHome() {
-        window.location.href = 'index.html'
+        window.location.href = 'index.html';
       }
+
       function selectLayout(num) {
-        localStorage.setItem('layoutCount', num)
-        window.location.href = 'capture.html'
+        localStorage.setItem('layoutCount', num);
+        window.location.href = 'capture.html';
       }
     </script>
   </body>
