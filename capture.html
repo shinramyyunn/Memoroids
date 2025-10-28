@@ -8,57 +8,35 @@
       body {
         font-family: 'Poppins', sans-serif;
         margin: 0;
-        padding: 1.5rem;
+        padding: 2rem;
         background: linear-gradient(to right, #fce4ec, #f8bbd0);
         display: flex;
         flex-direction: column;
         align-items: center;
-        min-height: 100vh;
       }
-
       h3 {
         margin-top: 1rem;
         color: #d63384;
-        text-align: center;
       }
-
-      /* Keep camera box small and consistent */
-      .camera-container {
-        width: 90%;
-        max-width: 320px;
-        aspect-ratio: 3 / 4;
-        border: 4px solid #ffb6c1;
-        border-radius: 12px;
-        overflow: hidden;
-        background: #fff0f6;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
       video {
         width: 100%;
-        height: 100%;
-        object-fit: cover;
+        max-width: 700px;
+        border: 4px solid #ffb6c1;
         border-radius: 10px;
-        transform: none; /* keep natural (not mirrored) */
+        margin-bottom: 1rem;
+        transform: scaleX(-1); /* not mirrored */
       }
-
       #countdown {
         font-size: 2rem;
         margin: 1rem 0;
         color: #ff69b4;
-        text-align: center;
       }
-
       #photoStrip {
         display: flex;
         gap: 10px;
         margin: 1rem 0;
         flex-wrap: wrap;
-        justify-content: center;
       }
-
       #photoStrip img {
         width: 60px;
         height: 80px;
@@ -66,7 +44,6 @@
         border: 2px solid #ffb6c1;
         border-radius: 8px;
       }
-
       #nextBtn {
         display: none;
         padding: 10px 20px;
@@ -76,24 +53,14 @@
         border: none;
         border-radius: 30px;
         cursor: pointer;
-        margin-top: 10px;
       }
-
-      #nextBtn:hover {
-        background-color: #ff85c1;
-      }
-
       #filterPreviews {
         display: flex;
         gap: 10px;
         margin: 1rem 0;
         overflow-x: auto;
         padding-bottom: 10px;
-        justify-content: center;
-        width: 100%;
-        max-width: 600px;
       }
-
       .filter-thumb {
         width: 60px;
         height: 80px;
@@ -101,35 +68,15 @@
         border-radius: 8px;
         cursor: pointer;
         transition: 0.3s;
-        flex-shrink: 0;
       }
-
       .filter-thumb:hover {
         border-color: #ff69b4;
         transform: scale(1.05);
       }
-
-      /* 🌸 Mobile Friendly Adjustments */
-      @media (max-width: 600px) {
-        body {
-          padding: 1rem;
-        }
-        .camera-container {
-          max-width: 260px;
-        }
-        .filter-thumb {
-          width: 50px;
-          height: 65px;
-        }
-      }
     </style>
   </head>
-
   <body>
-    <div class="camera-container">
-      <video id="video" autoplay playsinline></video>
-    </div>
-
+    <video id="video" autoplay playsinline></video>
     <h3>Choose a Filter</h3>
     <div id="filterPreviews"></div>
     <div id="countdown"></div>
@@ -137,81 +84,83 @@
     <button id="nextBtn" onclick="goToEdit()">Next</button>
 
     <script>
-      let layout = parseInt(localStorage.getItem('layoutCount'));
+      let layout = parseInt(localStorage.getItem('layoutCount'))
       if (!layout || isNaN(layout)) {
-        alert('No layout selected. Redirecting to layout page...');
-        window.location.href = 'layout.html';
+        alert('No layout selected. Redirecting to layout page...')
+        window.location.href = 'layout.html'
       }
 
-      let selectedFilter = localStorage.getItem('selectedFilter') || 'none';
-      let photoCount = 0;
-      let capturedImages = [];
-      let stream;
+      let selectedFilter = localStorage.getItem('selectedFilter') || 'none'
+      let photoCount = 0
+      let capturedImages = []
+      let stream
 
-      const video = document.getElementById('video');
-      const photoStrip = document.getElementById('photoStrip');
-      const countdownDisplay = document.getElementById('countdown');
-      const nextBtn = document.getElementById('nextBtn');
+      const video = document.getElementById('video')
+      const photoStrip = document.getElementById('photoStrip')
+      const countdownDisplay = document.getElementById('countdown')
+      const nextBtn = document.getElementById('nextBtn')
 
-      // 🎥 Start camera
+      // Start camera
       navigator.mediaDevices
-        .getUserMedia({ video: { facingMode: 'user' } })
+        .getUserMedia({ video: true })
         .then((camStream) => {
-          stream = camStream;
-          video.srcObject = stream;
-          video.style.filter = selectedFilter;
-          setupFilterPreviews();
-          startCapture();
+          stream = camStream
+          video.srcObject = stream
+          video.style.filter = selectedFilter
+          setupFilterPreviews()
+          startCapture()
         })
         .catch((err) => {
-          alert('Camera access denied!');
-          console.error(err);
-        });
+          alert('Camera access denied!')
+          console.error(err)
+        })
 
       function startCapture() {
-        let countdown = 3;
-        countdownDisplay.textContent = countdown;
+        let countdown = 3
+        countdownDisplay.textContent = countdown
         const interval = setInterval(() => {
-          countdown--;
-          countdownDisplay.textContent = countdown;
+          countdown--
+          countdownDisplay.textContent = countdown
           if (countdown === 0) {
-            clearInterval(interval);
-            capturePhoto();
+            clearInterval(interval)
+            capturePhoto()
           }
-        }, 1000);
+        }, 1000)
       }
 
       function capturePhoto() {
-        const canvas = document.createElement('canvas');
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        const ctx = canvas.getContext('2d');
+        const canvas = document.createElement('canvas')
+        canvas.width = video.videoWidth
+        canvas.height = video.videoHeight
+        const ctx = canvas.getContext('2d')
 
-        ctx.filter = selectedFilter;
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        ctx.translate(canvas.width, 0)
+        ctx.scale(-1, 1)
+        ctx.filter = selectedFilter
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
 
-        const dataURL = canvas.toDataURL('image/png');
+        const dataURL = canvas.toDataURL('image/png')
 
-        const img = document.createElement('img');
-        img.src = dataURL;
-        img.style.filter = selectedFilter;
-        photoStrip.appendChild(img);
+        const img = document.createElement('img')
+        img.src = dataURL
+        img.style.filter = selectedFilter // preview with same filter
+        photoStrip.appendChild(img)
 
-        capturedImages.push(dataURL);
-        photoCount++;
-        countdownDisplay.textContent = '';
+        capturedImages.push(dataURL)
+        photoCount++
+        countdownDisplay.textContent = ''
 
         if (photoCount < layout) {
-          setTimeout(startCapture, 1000);
+          setTimeout(startCapture, 1000)
         } else {
-          stream.getTracks().forEach((track) => track.stop());
-          localStorage.setItem('capturedStrip', JSON.stringify(capturedImages));
-          nextBtn.style.display = 'inline-block';
+          stream.getTracks().forEach((track) => track.stop())
+          localStorage.setItem('capturedStrip', JSON.stringify(capturedImages))
+          nextBtn.style.display = 'inline-block'
         }
       }
 
       function goToEdit() {
-        window.location.href = 'edit.html';
+        window.location.href = 'edit.html'
       }
 
       function setupFilterPreviews() {
@@ -221,35 +170,35 @@
           { name: 'Sepia', value: 'sepia(70%)' },
           { name: 'Vintage', value: 'contrast(120%)' },
           { name: 'Soft', value: 'brightness(110%) saturate(120%)' },
-        ];
+        ]
 
-        const filterContainer = document.getElementById('filterPreviews');
-        filterContainer.innerHTML = '';
+        const filterContainer = document.getElementById('filterPreviews')
 
         filters.forEach((f) => {
-          const canvas = document.createElement('canvas');
-          canvas.className = 'filter-thumb';
-          canvas.width = 60;
-          canvas.height = 80;
-          const ctx = canvas.getContext('2d');
+          const canvas = document.createElement('canvas')
+          canvas.className = 'filter-thumb'
+          canvas.width = 60
+          canvas.height = 80
+          const ctx = canvas.getContext('2d')
 
-          const drawPreview = () => {
-            if (video.readyState === video.HAVE_ENOUGH_DATA) {
-              ctx.filter = f.value;
-              ctx.drawImage(video, 0, 0, 60, 80);
+          ctx.fillStyle = '#eee'
+          ctx.fillRect(0, 0, 60, 80)
+
+          filterContainer.appendChild(canvas)
+
+          setInterval(() => {
+            if (video.videoWidth > 0) {
+              ctx.filter = f.value
+              ctx.drawImage(video, 0, 0, 60, 80)
             }
-          };
-
-          setInterval(drawPreview, 300);
+          }, 300)
 
           canvas.onclick = () => {
-            selectedFilter = f.value;
-            video.style.filter = selectedFilter;
-            localStorage.setItem('selectedFilter', selectedFilter);
-          };
-
-          filterContainer.appendChild(canvas);
-        });
+            selectedFilter = f.value
+            video.style.filter = selectedFilter
+            localStorage.setItem('selectedFilter', selectedFilter)
+          }
+        })
       }
     </script>
   </body>
