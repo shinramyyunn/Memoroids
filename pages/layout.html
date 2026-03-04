@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Select Layout</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: 'Tangerine', cursive;
+        background: linear-gradient(to right, #fce4ec, #f8bbd0);
+        padding: 2rem;
+        text-align: center;
+        min-height: 100vh;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      h1 {
+        color: #000;
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .layout-buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        width: 100%;
+        max-width: 400px;
+      }
+
+      .layout-btn {
+        width: 80%;
+        background-color: #fff;
+        border: none;
+        border-radius: 20px;
+        padding: 1.2rem;
+        font-size: 1.5rem;
+        color: #ff69b4;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        box-shadow: 0 8px 20px rgba(255, 105, 180, 0.15);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+      }
+
+      .layout-btn:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 25px rgba(211, 52, 132, 0.3);
+        background-color: #fff0f5;
+      }
+
+      .note {
+        font-size: 1.3rem;
+        margin-top: 2rem;
+        color: #555;
+      }
+
+      /* 🏠 Home Button */
+      .home-button {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #fff8ca;
+        border: none;
+        border-radius: 50%;
+        padding: 12px;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(236, 140, 191, 0.3);
+        transition: background 0.2s ease;
+        z-index: 1000;
+      }
+
+      .home-button:hover {
+        background-color: #ffe4e1;
+      }
+
+      .home-button svg {
+        width: 24px;
+        height: 24px;
+        color: #ff69b4;
+      }
+
+      /* 🌸 Mobile Responsiveness */
+      @media (max-width: 600px) {
+        h1 {
+          font-size: 2rem;
+          margin-bottom: 1rem;
+        }
+
+        .layout-btn {
+          font-size: 1.2rem;
+          width: 90%;
+          padding: 1rem;
+        }
+
+        .home-button {
+          top: 10px;
+          right: 10px;
+          padding: 10px;
+        }
+
+        .home-button svg {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <button class="home-button" onclick="goHome()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-home">
+        <path d="M3 9l9-7 9 7"></path>
+        <path d="M9 22V12h6v10"></path>
+      </svg>
+    </button>
+
+    <h1>Choose Your Layout</h1>
+
+    <div class="layout-buttons">
+      <button class="layout-btn" onclick="selectLayout(2)">2 Photos</button>
+      <button class="layout-btn" onclick="selectLayout(3)">3 Photos</button>
+      <button class="layout-btn" onclick="selectLayout(4)">4 Photos</button>
+    </div>
+
+    <script>
+      function goHome() {
+        window.location.href = 'index.html';
+      }
+
+      function selectLayout(num) {
+        localStorage.setItem('layoutCount', num);
+        window.location.href = 'capture.html';
+      }
+    </script>
+  </body>
+</html>

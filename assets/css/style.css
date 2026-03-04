@@ -1,0 +1,207 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #ffffff;
+  color: #333;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 98%;
+  z-index: 999;
+  border-radius: 88px;
+  background-color: #fff8ca;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  border-radius: 100px;
+  box-shadow: #ec8cbf 0px 0px 10px 0px;
+  margin-bottom: 10px;
+  margin-top: 7px;
+}
+body {
+  margin: 0;
+  padding: 0; /* Adjust for fixed navbar height */
+}
+main {
+  padding-top: 70px; /* Adjust for fixed navbar height */
+}
+
+.navbar .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(90deg, #ff9a9e, #fad0c4, #fbc2eb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; /* For Firefox */
+  text-fill-color: transparent;
+}
+
+.navbar .nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+.navbar .nav-links li a {
+  text-decoration: none;
+  color: #ef8888;
+  font-weight: 500;
+  background: linear-gradient(90deg, #ff9a9e, #ae56a6, #f4afe0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; /* For Firefox */
+  text-fill-color: transparent;
+}
+
+.banner {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.banner-text h1 {
+  color: black;
+  font-size: 10rem;
+  margin-bottom: 0.5rem;
+  font-family: 'Pacifico', cursive;
+}
+
+.banner-text p {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  font-family: 'Pacifico', cursive;
+}
+
+.start-button {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  background-color: #fa84bf;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s ease;
+}
+
+.start-button:hover {
+  background-color: #fc99ce;
+}
+
+section {
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.layout-selection {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.layout-selection h1 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.layout-options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.layout-box {
+  width: 120px;
+  text-align: center;
+  cursor: pointer;
+  background-color: #f7f1f3;
+
+  border-radius: 12px;
+  transition: transform 0.3s;
+}
+
+.layout-box:hover {
+  transform: scale(1.05);
+}
+
+.layout-box p {
+  margin-top: 0.5rem;
+  font-weight: bold;
+}
+
+.grid {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  width: 50%;
+  height: 70px;
+  display: grid;
+  gap: 4px;
+}
+
+.grid-2 {
+  grid-template-rows: repeat(2, 1fr);
+}
+
+.grid-3 {
+  grid-template-rows: repeat(3, 1fr);
+}
+
+.grid-4 {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.hero-banner {
+  position: fixed; /* important so .sticker positions inside */
+  height: 95vh;
+  width: 100%;
+  background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 5rem;
+  box-sizing: border-box;
+  box-shadow: #ec8cbf 0px 0px 10px 0px;
+  overflow: hidden; /* avoid scroll from large stickers */
+  margin-top: 100px;
+  border-radius: 45px;
+  border: 1px;
+}
+
+.hero-content {
+  color: #fff;
+  max-width: 600px;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  font-family: 'Pacifico', cursive;
+  margin-bottom: 1rem;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  font-family: 'Poppins', sans-serif;
+  margin-bottom: 2rem;
+}
+
+.start-btn {
+  background-color: #ff69b4;
+  color: white;
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  text-decoration: none;
+  border-radius: 30px;
+  transition: background 0.3s;
+}
+
+.start-btn:hover {
+  background-color: #ff1493;
+}

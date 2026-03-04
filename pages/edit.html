@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Memoriods — Edit Strip</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+    <style>
+      /* ---------- GLOBAL ---------- */
+      body {
+        margin: 0;
+        font-family: 'Quicksand', sans-serif;
+        background: linear-gradient(135deg, #fff6fb, #f4f8ff, #fffdf2);
+        padding-top: 80px;
+      }
+
+      /* HOME BUTTON */
+      .home-button {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #fff;
+        border: none;
+        border-radius: 50%;
+        padding: 12px;
+        cursor: pointer;
+        box-shadow: 0 6px 18px rgba(255, 120, 170, 0.3);
+      }
+
+      /* LAYOUT */
+      .edit-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 3rem;
+        padding: 2rem;
+      }
+
+      /* STRIP */
+      .strip-preview {
+        background: #fff;
+        padding: 18px;
+        width: 230px;
+        border-radius: 22px;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+
+        position: relative;
+        overflow: hidden;
+
+        background-size: cover;
+        background-position: center;
+      }
+
+      .strip-preview img {
+        width: 100%;
+        aspect-ratio: 4/3;
+        object-fit: cover;
+        border-radius: 10px;
+      }
+
+      /* OPTIONS */
+      .bg-options {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.2rem;
+      }
+
+      h3 {
+        margin: 0;
+        color: #333;
+      }
+
+      /* COLOR BUTTONS */
+      .color-button-group,
+      .print-button-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: center;
+      }
+
+      .color-btn,
+      .print-btn {
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: none;
+        transition: 0.25s;
+      }
+
+      .color-btn:hover,
+      .print-btn:hover {
+        transform: scale(1.1);
+      }
+
+      /* COLORS */
+      .bg-white {
+        background: #fff;
+      }
+      .bg-black {
+        background: #222;
+      }
+      .bg-pink {
+        background: #ffe4e1;
+      }
+      .bg-blue {
+        background: #d0e7ff;
+      }
+      .bg-yellow {
+        background: #fff7c2;
+      }
+      .bg-green {
+        background: #c7e984;
+      }
+      .bg-maroon {
+        background: #5a0c0c;
+      }
+
+      /* SHAPE BUTTONS */
+      .shape-button-group {
+        display: flex;
+        gap: 12px;
+      }
+
+      .shape-btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 14px;
+        background: #ffe6ef;
+        cursor: pointer;
+      }
+
+      /* DOWNLOAD */
+      #downloadBtn {
+        padding: 14px 28px;
+        border: none;
+        border-radius: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        background: linear-gradient(135deg, #ffd6e7, #ffeaa7);
+      }
+
+      /* ---------- STICKERS ---------- */
+
+      .sticker-wrapper {
+        position: absolute;
+        width: 80px;
+        cursor: move;
+        z-index: 10;
+
+        display: inline-block;
+      }
+
+      .preview-sticker {
+        width: 100%;
+        height: auto; /* ⭐ prevents stretching */
+        pointer-events: none;
+        user-select: none;
+      }
+
+      .resize-handle {
+        width: 14px;
+        height: 14px;
+        background: #ff8fb1;
+        border-radius: 50%;
+        position: absolute;
+        bottom: -6px;
+        right: -6px;
+        cursor: nwse-resize;
+      }
+    </style>
+  </head>
+
+  <body>
+    <button class="home-button" onclick="goHome()">
+      <i data-lucide="home"></i>
+    </button>
+
+    <main class="edit-container">
+      <div class="strip-preview" id="stripPreview"></div>
+
+      <div class="bg-options">
+        <h3>Background</h3>
+
+        <div class="color-button-group">
+          <button
+            class="color-btn bg-white"
+            onclick="changeStripBG('#ffffff')"
+          ></button>
+          <button
+            class="color-btn bg-black"
+            onclick="changeStripBG('#222')"
+          ></button>
+          <button
+            class="color-btn bg-pink"
+            onclick="changeStripBG('#ffe4e1')"
+          ></button>
+          <button
+            class="color-btn bg-blue"
+            onclick="changeStripBG('#d0e7ff')"
+          ></button>
+        </div>
+
+        <div class="print-button-group">
+          <img
+            src="../assets/images/heartbg.jpeg"
+            class="print-btn"
+            onclick="changeStripBG('url(../assets/images/heartbg.jpeg)')"
+          />
+
+          <img
+            src="../assets/images/flowerbg.jpeg"
+            class="print-btn"
+            onclick="changeStripBG('url(../assets/images/flowerbg.jpeg)')"
+          />
+
+          <img
+            src="../assets/images/oceanbg.jpeg"
+            class="print-btn"
+            onclick="changeStripBG('url(../assets/images/oceanbg.jpeg)')"
+          />
+        </div>
+
+        <h3>Photo Shape</h3>
+
+        <div class="shape-button-group">
+          <button class="shape-btn" onclick="changeShape('square')">
+            Square
+          </button>
+          <button class="shape-btn" onclick="changeShape('circle')">
+            Circle
+          </button>
+          <button class="shape-btn" onclick="changeShape('nonagon')">
+            Nonagon
+          </button>
+        </div>
+
+        <h3>Stickers</h3>
+
+        <div class="print-button-group">
+          <img
+            src="../assets/stickers/sticker1.png"
+            class="print-btn"
+            onclick="addSticker(this.src)"
+          />
+          <img
+            src="../assets/stickers/sticker2.png"
+            class="print-btn"
+            onclick="addSticker(this.src)"
+          />
+          <img
+            src="../assets/stickers/sticker3.png"
+            class="print-btn"
+            onclick="addSticker(this.src)"
+          />
+          <img
+            src="../assets/stickers/sticker4.png"
+            class="print-btn"
+            onclick="addSticker(this.src)"
+          />
+          <img
+            src="../assets/stickers/sticker5.png"
+            class="print-btn"
+            onclick="addSticker(this.src)"
+          />
+          <img
+            src="../assets/stickers/sticker6.png"
+            class="print-btn"
+            onclick="addSticker(this.src)"
+          />
+        </div>
+
+        <button id="downloadBtn">Download Strip</button>
+      </div>
+    </main>
+
+    <script>
+      lucide.createIcons()
+
+      /* HOME */
+      function goHome() {
+        window.location.href = 'index.html'
+      }
+
+      /* BACKGROUND */
+      function changeStripBG(bg) {
+        const strip = document.getElementById('stripPreview')
+        if (bg.includes('url('))
+          strip.style.background = `${bg} center/cover no-repeat`
+        else strip.style.background = bg
+      }
+
+      /* SHAPES */
+      function changeShape(shape) {
+        document.querySelectorAll('#stripPreview img').forEach((img) => {
+          if (shape === 'circle') {
+            img.style.borderRadius = '50%'
+            img.style.clipPath = 'none'
+          } else if (shape === 'nonagon') {
+            img.style.borderRadius = '0'
+            img.style.clipPath =
+              'polygon(50% 0%,83% 12%,100% 43%,94% 78%,68% 100%,32% 100%,6% 78%,0% 43%,17% 12%)'
+          } else {
+            img.style.borderRadius = '0'
+            img.style.clipPath = 'none'
+          }
+        })
+      }
+
+      /* LOAD PHOTOS */
+      window.onload = () => {
+        const container = document.getElementById('stripPreview')
+        const images = JSON.parse(localStorage.getItem('capturedStrip')) || []
+
+        images.forEach((src) => {
+          const img = document.createElement('img')
+          img.src = src
+          container.appendChild(img)
+        })
+      }
+
+      /* ---------- STICKERS ---------- */
+
+      function addSticker(src) {
+        const strip = document.getElementById('stripPreview')
+
+        const wrapper = document.createElement('div')
+        wrapper.className = 'sticker-wrapper'
+
+        const img = document.createElement('img')
+        img.src = src
+        img.className = 'preview-sticker'
+
+        const handle = document.createElement('div')
+        handle.className = 'resize-handle'
+
+        wrapper.appendChild(img)
+        wrapper.appendChild(handle)
+
+        wrapper.style.left = '60px'
+        wrapper.style.top = '80px'
+
+        strip.appendChild(wrapper)
+
+        enableDrag(wrapper, strip)
+        enableResize(wrapper, handle)
+
+        wrapper.ondblclick = () => wrapper.remove()
+      }
+
+      /* DRAG */
+      function enableDrag(el, container) {
+        let offsetX, offsetY
+
+        el.addEventListener('mousedown', (e) => {
+          if (e.target.classList.contains('resize-handle')) return
+
+          offsetX = e.offsetX
+          offsetY = e.offsetY
+
+          function move(e) {
+            const rect = container.getBoundingClientRect()
+            el.style.left = e.clientX - rect.left - offsetX + 'px'
+            el.style.top = e.clientY - rect.top - offsetY + 'px'
+          }
+
+          document.addEventListener('mousemove', move)
+          document.addEventListener(
+            'mouseup',
+            () => document.removeEventListener('mousemove', move),
+            { once: true },
+          )
+        })
+      }
+
+      /* RESIZE */
+      function enableResize(wrapper, handle) {
+        handle.addEventListener('mousedown', (e) => {
+          e.stopPropagation()
+
+          const startX = e.clientX
+          const startWidth = wrapper.offsetWidth
+
+          function resize(e) {
+            const newWidth = startWidth + (e.clientX - startX)
+            wrapper.style.width = Math.max(40, newWidth) + 'px'
+          }
+
+          document.addEventListener('mousemove', resize)
+          document.addEventListener(
+            'mouseup',
+            () => document.removeEventListener('mousemove', resize),
+            { once: true },
+          )
+        })
+      }
+
+      /* DOWNLOAD */
+      document
+        .getElementById('downloadBtn')
+        .addEventListener('click', async () => {
+          const strip = document.getElementById('stripPreview')
+
+          /* 1️⃣ hide resize handles */
+          const handles = document.querySelectorAll('.resize-handle')
+          handles.forEach((h) => (h.style.display = 'none'))
+
+          /* optional: remove selection cursor look */
+          const stickers = document.querySelectorAll('.sticker-wrapper')
+          stickers.forEach((s) => (s.style.cursor = 'default'))
+
+          /* 2️⃣ take screenshot */
+          const canvas = await html2canvas(strip, {
+            scale: 2,
+            useCORS: true,
+          })
+
+          /* 3️⃣ restore editor UI */
+          handles.forEach((h) => (h.style.display = 'block'))
+          stickers.forEach((s) => (s.style.cursor = 'move'))
+
+          /* 4️⃣ download */
+          const link = document.createElement('a')
+          link.download = 'memoriods_strip.png'
+          link.href = canvas.toDataURL('image/png')
+          link.click()
+        })
+      html2canvas(document.getElementById('stripPreview'), { scale: 2 }).then(
+        (canvas) => {
+          const link = document.createElement('a')
+          link.download = 'memoriods_strip.png'
+          link.href = canvas.toDataURL()
+          link.click()
+        },
+      )
+    </script>
+  </body>
+</html>
